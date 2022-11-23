@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,9 +15,13 @@ public class Review {
 
     @Id
     private Long id;
-    private Long hospitalId;
     private String title;
-    private String contentName;
+    private String content;
+    private String patientName;
+
+    @ManyToOne
+    @JoinColumn(name="hospital_id")
+    private Hospital hospital;
 
 
 
