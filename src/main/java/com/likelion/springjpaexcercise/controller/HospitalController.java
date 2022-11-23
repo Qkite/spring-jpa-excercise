@@ -6,6 +6,7 @@ import com.likelion.springjpaexcercise.service.HospitalService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,12 @@ public class HospitalController {
         this.hospitalService = hospitalService;
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<HospitalResponseDto>> reviewList(@PathVariable Long id){
+
+        return ResponseEntity.ok().body(hospitalService.findReview(id));
+    }
 
     @GetMapping("")
     public ResponseEntity<List<HospitalResponseDto>> list(Pageable pageable){

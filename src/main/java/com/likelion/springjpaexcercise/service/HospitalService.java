@@ -1,9 +1,7 @@
 package com.likelion.springjpaexcercise.service;
 
-import com.likelion.springjpaexcercise.entity.Author;
 import com.likelion.springjpaexcercise.entity.Hospital;
 import com.likelion.springjpaexcercise.entity.Review;
-import com.likelion.springjpaexcercise.entity.dto.BookResponseDto;
 import com.likelion.springjpaexcercise.entity.dto.HospitalResponseDto;
 import com.likelion.springjpaexcercise.repository.HospitalRepository;
 import com.likelion.springjpaexcercise.repository.ReviewRepository;
@@ -29,12 +27,25 @@ public class HospitalService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<HospitalResponseDto> hospitalList(@PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC)
-                                                  Pageable pageable){
-        Page<Review> hospitalPage = reviewRepository.findAll(pageable);
+    public List<HospitalResponseDto> findReview(Long id){
+        Optional<Review> reviewList = reviewRepository.findById(id);
 
         // many인 것을 기준으로 one인 것을 넣어준다
-        List<HospitalResponseDto> hospitalResponseDtoList = hospitalPage.stream()
+        List<HospitalResponseDto> hospitalResponseDtoList = reviewList.stream()
+                .map(review -> {
+                    Optional<Hospital> optionalHospital  = hospitalRepository.findById(review.getHospitalId());
+                    return HospitalResponseDto.of(optionalHospital.get(), review);
+                }).collect(Collectors.toList());
+
+        return hospitalResponseDtoList;
+    }
+
+    public List<HospitalResponseDto> hospitalList(@PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC)
+    Pageable pageable){
+        Page<Review> reviewList = reviewRepository.findAll(pageable);
+
+        // many인 것을 기준으로 one인 것을 넣어준다
+        List<HospitalResponseDto> hospitalResponseDtoList = reviewList.stream()
                 .map(review -> {
                     Optional<Hospital> optionalHospital  = hospitalRepository.findById(review.getHospitalId());
                     return HospitalResponseDto.of(optionalHospital.get(), review);
