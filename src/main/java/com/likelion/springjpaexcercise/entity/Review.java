@@ -1,5 +1,6 @@
 package com.likelion.springjpaexcercise.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,17 +11,16 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Book {
+@AllArgsConstructor
+public class Review {
 
     @Id
-    @Column(name = "book_id")
     private Long id;
+    private Long hospitalId;
+    private String title;
+    private String contentName;
 
-    @Column(name = "book_name")
-    private String name;
 
-    @Column(name = "author_id")
-    private Long authorId;
+
 }
