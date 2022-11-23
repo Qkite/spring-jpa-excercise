@@ -1,6 +1,7 @@
 package com.likelion.springjpaexcercise.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "hospital_id")
+    @JsonManagedReference
     private Hospital hospital;
 
 

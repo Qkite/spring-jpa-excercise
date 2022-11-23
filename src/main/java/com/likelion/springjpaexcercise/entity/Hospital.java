@@ -1,6 +1,7 @@
 package com.likelion.springjpaexcercise.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Hospital {
     private String roadNameAddress;
 
     @OneToMany(mappedBy = "hospital", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Review> review;
 
 
