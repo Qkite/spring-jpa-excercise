@@ -27,31 +27,22 @@ public class HospitalService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<HospitalResponseDto> findReview(Long id){
-        Optional<Review> reviewList = reviewRepository.findById(id);
+    public List<Review> findReview(Long id){
 
-        // many인 것을 기준으로 one인 것을 넣어준다
-        List<HospitalResponseDto> hospitalResponseDtoList = reviewList.stream()
-                .map(review -> {
-                    Optional<Hospital> optionalHospital  = hospitalRepository.findById(review.getHospitalId());
-                    return HospitalResponseDto.of(optionalHospital.get(), review);
-                }).collect(Collectors.toList());
+        Review review = new Review();
 
-        return hospitalResponseDtoList;
+        Hospital findHospital = hospitalRepository.findById(id).get();
+
+        List<Review> reviewList = findHospital.getReview();
+
+        return reviewList;
     }
 
-    public List<HospitalResponseDto> hospitalList(@PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC)
+    public Page<Hospital> hospitalList(@PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC)
     Pageable pageable){
-        Page<Review> reviewList = reviewRepository.findAll(pageable);
+        Page<Hospital> hospitalPage = hospitalRepository.findAll(pageable);
 
-        // many인 것을 기준으로 one인 것을 넣어준다
-        List<HospitalResponseDto> hospitalResponseDtoList = reviewList.stream()
-                .map(review -> {
-                    Optional<Hospital> optionalHospital  = hospitalRepository.findById(review.getHospitalId());
-                    return HospitalResponseDto.of(optionalHospital.get(), review);
-                }).collect(Collectors.toList());
-
-        return hospitalResponseDtoList;
+        return hospitalPage;
     }
 
 

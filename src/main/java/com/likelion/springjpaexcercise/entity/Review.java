@@ -18,7 +18,10 @@ public class Review {
     private String title;
     private String content;
     private String patientName;
-    private Long hospitalId;
+
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
 
 
 
