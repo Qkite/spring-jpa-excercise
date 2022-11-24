@@ -2,7 +2,8 @@ package com.likelion.springjpaexcercise.service;
 
 import com.likelion.springjpaexcercise.entity.Hospital;
 import com.likelion.springjpaexcercise.entity.Review;
-import com.likelion.springjpaexcercise.entity.dto.HospitalResponseDto;
+import com.likelion.springjpaexcercise.entity.dto.HospitalAddRequestDto;
+import com.likelion.springjpaexcercise.entity.dto.HospitalAddResponseDto;
 import com.likelion.springjpaexcercise.repository.HospitalRepository;
 import com.likelion.springjpaexcercise.repository.ReviewRepository;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class HospitalService {
@@ -44,6 +44,21 @@ public class HospitalService {
 
         return hospitalPage;
     }
+
+    public HospitalAddResponseDto addReview(HospitalAddRequestDto requestDto, Long hospitalId){
+
+        Optional<Hospital> hospitalOptional= hospitalRepository.findById(hospitalId);
+        Hospital hospital = hospitalOptional.get();
+
+        HospitalAddResponseDto hospitalAddResponseDto = new HospitalAddResponseDto(requestDto.getTitle(), requestDto.getContent(), requestDto.getPatientName(), hospitalId);
+
+        Review review = hospitalAddResponseDto.toEntity(hospital, requestDto);
+        reviewRepository.save(review);
+
+
+        return hospitalAddResponseDto;
+    }
+
 
 
 }
