@@ -33,7 +33,13 @@ public class HospitalController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Review>> reviewList(@PathVariable Long id){
+    public ResponseEntity<List<Review>> HospitalsReviewList(@PathVariable Long id){
+
+        return ResponseEntity.ok().body(hospitalService.findHospitalReview(id));
+    }
+
+    @GetMapping("/reviews/{id}")
+    public ResponseEntity<Review> reviewListWithId(@PathVariable Long id){
 
         return ResponseEntity.ok().body(hospitalService.findReview(id));
     }

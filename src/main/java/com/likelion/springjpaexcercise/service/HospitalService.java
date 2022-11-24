@@ -27,7 +27,7 @@ public class HospitalService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<Review> findReview(Long id){
+    public List<Review> findHospitalReview(Long id){
 
         Review review = new Review();
 
@@ -36,6 +36,13 @@ public class HospitalService {
         List<Review> reviewList = findHospital.getReview();
 
         return reviewList;
+    }
+
+    public Review findReview(Long reviewId){
+        Optional<Review> findedReview = reviewRepository.findById(reviewId);
+        Review review = findedReview.get();
+
+        return review;
     }
 
     public Page<Hospital> hospitalList(@PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC)
